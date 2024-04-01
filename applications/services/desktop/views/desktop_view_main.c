@@ -72,6 +72,9 @@ bool desktop_main_input_callback(InputEvent* event, void* context) {
             } else if(event->key == InputKeyRight) {
                 main_view->callback(DesktopMainEventOpenFavoriteRightLong, main_view->context);
             }
+              else if(event->key == InputKeyOk) {
+                main_view->callback(DesktopAnimationEventNewIdleAnimation, main_view->context);
+            }
         }
     } else {
         if(event->type == InputTypeShort) {
