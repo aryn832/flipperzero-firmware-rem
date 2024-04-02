@@ -1,1 +1,11 @@
 ./fbt icons proto dolphin_internal dolphin_ext resources
+
+for file in frame_*_delay-0.1s.png; do
+  mv "$file" "${file/_delay-0.1s/}"
+done
+
+for f in frame_0*.png; do mv "$f" "${f//_0/_}"; done
+
+ls /dev/cu.*
+
+minicom -D /dev/<port> -b 230400

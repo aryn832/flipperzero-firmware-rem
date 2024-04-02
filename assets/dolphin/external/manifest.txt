@@ -15,3 +15,10 @@ Min level: 1
 Max level: 3
 Weight: 8
 
+Name: Misuzu
+Min butthurt: 0
+Max butthurt: 5
+Min level: 1
+Max level: 3
+Weight: 8
+
