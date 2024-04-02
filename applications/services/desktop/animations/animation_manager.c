@@ -365,11 +365,14 @@ static bool animation_manager_is_valid_idle_animation(
     return result;
 }
 
-static StorageAnimation*
-    animation_manager_select_idle_animation(AnimationManager* animation_manager) {
+static StorageAnimation* animation_manager_select_idle_animation(AnimationManager* animation_manager) {
     if(animation_manager->dummy_mode) {
         return animation_storage_find_animation(HARDCODED_ANIMATION_NAME);
     }
+
+    StorageAnimation* current_animation = animation_manager->current_animation;
+    const char* current_animation_name = current_animation ? animation_storage_get_meta(current_animation)->name : "";
+
     StorageAnimationList_t animation_list;
     StorageAnimationList_init(animation_list);
     animation_storage_fill_animation_list(&animation_list);
@@ -377,57 +380,62 @@ static StorageAnimation*
     Dolphin* dolphin = furi_record_open(RECORD_DOLPHIN);
     DolphinStats stats = dolphin_stats(dolphin);
     furi_record_close(RECORD_DOLPHIN);
-    uint32_t whole_weight = 0;
 
+    // Filter and weight valid animations
     StorageAnimationList_it_t it;
-    for(StorageAnimationList_it(it, animation_list); !StorageAnimationList_end_p(it);) {
-        StorageAnimation* storage_animation = *StorageAnimationList_ref(it);
-        const StorageAnimationManifestInfo* manifest_info =
-            animation_storage_get_meta(storage_animation);
-        bool valid = animation_manager_is_valid_idle_animation(manifest_info, &stats);
-
-        if(valid) {
-            whole_weight += manifest_info->weight;
-            StorageAnimationList_next(it);
-        } else {
-            animation_storage_free_storage_animation(&storage_animation);
-            /* remove and increase iterator */
-            StorageAnimationList_remove(animation_list, it);
+    if (!StorageAnimationList_empty_p(animation_list)) {
+        for(StorageAnimationList_it(it, animation_list); !StorageAnimationList_end_p(it);) {
+            StorageAnimation* storage_animation = *StorageAnimationList_ref(it);
+            const StorageAnimationManifestInfo* manifest_info = animation_storage_get_meta(storage_animation);
+            // Check to exclude the specific animation as well as validate others
+            if(!strcmp(manifest_info->name, current_animation_name) ||
+               !strcmp(manifest_info->name, "L1_Tv_128x47") ||
+               !animation_manager_is_valid_idle_animation(manifest_info, &stats)) {
+                animation_storage_free_storage_animation(&storage_animation);
+                StorageAnimationList_remove(animation_list, it); // Remove and advance iterator if invalid, the same, or excluded
+            } else {
+                StorageAnimationList_next(it); // Advance iterator if valid and not the same
+            }
         }
-    }
 
-    uint32_t lucky_number = furi_hal_random_get() % whole_weight;
-    uint32_t weight = 0;
+        // Select a random animation from the filtered list
+        uint32_t whole_weight = 0;
+        for(StorageAnimationList_it(it, animation_list); !StorageAnimationList_end_p(it); StorageAnimationList_next(it)) {
+            whole_weight += animation_storage_get_meta(*StorageAnimationList_ref(it))->weight;
+        }
 
-    StorageAnimation* selected = NULL;
-    for
-        M_EACH(item, animation_list, StorageAnimationList_t) {
+        uint32_t lucky_number = furi_hal_random_get() % whole_weight;
+        uint32_t weight = 0;
+        StorageAnimation* selected = NULL;
+        for(StorageAnimationList_it(it, animation_list); !StorageAnimationList_end_p(it); StorageAnimationList_next(it)) {
+            StorageAnimation* item = *StorageAnimationList_ref(it);
+            weight += animation_storage_get_meta(item)->weight;
             if(lucky_number < weight) {
+                selected = item;
                 break;
             }
-            weight += animation_storage_get_meta(*item)->weight;
-            selected = *item;
         }
 
-    for
-        M_EACH(item, animation_list, StorageAnimationList_t) {
-            if(*item != selected) {
-                animation_storage_free_storage_animation(item);
+        // Free the rest of the animations
+        for(StorageAnimationList_it(it, animation_list); !StorageAnimationList_end_p(it); StorageAnimationList_next(it)) {
+            StorageAnimation* item = *StorageAnimationList_ref(it);
+            if(item != selected) {
+                animation_storage_free_storage_animation(&item);
             }
         }
+        StorageAnimationList_clear(animation_list);
 
-    StorageAnimationList_clear(animation_list);
+        // Fallback if no valid, non-repeating animation is found
+        if(!selected) {
+            selected = current_animation ? animation_storage_find_animation(HARDCODED_ANIMATION_NAME) : NULL;
+        }
 
-    /* cache animation, if failed - choose reliable animation */
-    if(!animation_storage_get_bubble_animation(selected)) {
-        const char* name = animation_storage_get_meta(selected)->name;
-        FURI_LOG_E(TAG, "Can't upload animation described in manifest: \'%s\'", name);
-        animation_storage_free_storage_animation(&selected);
-        selected = animation_storage_find_animation(HARDCODED_ANIMATION_NAME);
+        furi_assert(selected);
+        return selected;
     }
 
-    furi_assert(selected);
-    return selected;
+    // If the list is empty, fallback to the hardcoded animation
+    return animation_storage_find_animation(HARDCODED_ANIMATION_NAME);
 }
 
 bool animation_manager_is_animation_loaded(AnimationManager* animation_manager) {
