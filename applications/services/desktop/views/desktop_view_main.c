@@ -57,7 +57,7 @@ bool desktop_main_input_callback(InputEvent* event, void* context) {
             } else if(event->key == InputKeyUp) {
                 main_view->callback(DesktopMainEventOpenFavoriteLeftShort, main_view->context);
             } else if(event->key == InputKeyDown) {
-                main_view->callback(DesktopMainEventOpenArchive, main_view->context);
+                main_view->callback(DesktopMainEventOpenFavoriteRightShort, main_view->context);
             } else if(event->key == InputKeyLeft) {
                 main_view->callback(DesktopMainEventOpenMenu, main_view->context);
             }

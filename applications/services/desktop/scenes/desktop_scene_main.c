@@ -161,7 +161,7 @@ bool desktop_scene_main_on_event(void* context, SceneManagerEvent event) {
         case DesktopMainEventOpenFavoriteRightShort:
             DESKTOP_SETTINGS_LOAD(&desktop->settings);
             desktop_scene_main_start_favorite(
-                desktop, &desktop->settings.favorite_apps[FavoriteAppRightShort]);
+                desktop, &desktop->settings.dummy_apps[DummyAppRight]);
             consumed = true;
             break;
         case DesktopMainEventOpenFavoriteRightLong:
