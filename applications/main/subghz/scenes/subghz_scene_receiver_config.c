@@ -269,16 +269,17 @@ void subghz_scene_receiver_config_on_enter(void* context) {
 
     if(scene_manager_get_scene_state(subghz->scene_manager, SubGhzSceneReadRAW) !=
        SubGhzCustomEventManagerSet) {
+        // Modified code snippet with "Hopping" set to "ON" by default
         item = variable_item_list_add(
             subghz->variable_item_list,
             "Hopping:",
             HOPPING_COUNT,
             subghz_scene_receiver_config_set_hopping_running,
             subghz);
-        value_index = subghz_scene_receiver_config_hopper_value_index(
-            subghz_txrx_hopper_get_state(subghz->txrx), hopping_value, HOPPING_COUNT, subghz);
+        value_index = 1;  // Force the default value to "ON"
         variable_item_set_current_value_index(item, value_index);
         variable_item_set_current_value_text(item, hopping_text[value_index]);
+
     }
 
     item = variable_item_list_add(

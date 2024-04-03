@@ -39,8 +39,8 @@ SubGhzTxRx* subghz_txrx_alloc(void) {
 
     instance->txrx_state = SubGhzTxRxStateSleep;
 
-    subghz_txrx_hopper_set_state(instance, SubGhzHopperStateOFF);
-    subghz_txrx_speaker_set_state(instance, SubGhzSpeakerStateDisable);
+    subghz_txrx_hopper_set_state(instance, SubGhzHopperStateRunnig);
+    subghz_txrx_speaker_set_state(instance, SubGhzSpeakerStateEnable);
 
     instance->worker = subghz_worker_alloc();
     instance->fff_data = flipper_format_string_alloc();

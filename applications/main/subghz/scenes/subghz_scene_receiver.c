@@ -147,22 +147,8 @@ bool subghz_scene_receiver_on_event(void* context, SceneManagerEvent event) {
     if(event.type == SceneManagerEventTypeCustom) {
         switch(event.event) {
         case SubGhzCustomEventViewReceiverBack:
-            // Stop CC1101 Rx
-            subghz->state_notifications = SubGhzNotificationStateIDLE;
-            subghz_txrx_stop(subghz->txrx);
-            subghz_txrx_hopper_set_state(subghz->txrx, SubGhzHopperStateOFF);
-            subghz->idx_menu_chosen = 0;
-            subghz_txrx_set_rx_calback(subghz->txrx, NULL, subghz);
-
-            if(subghz_rx_key_state_get(subghz) == SubGhzRxKeyStateAddKey) {
-                subghz_rx_key_state_set(subghz, SubGhzRxKeyStateExit);
-                scene_manager_next_scene(subghz->scene_manager, SubGhzSceneNeedSaving);
-            } else {
-                subghz_rx_key_state_set(subghz, SubGhzRxKeyStateIDLE);
-                subghz_set_default_preset(subghz);
-                scene_manager_search_and_switch_to_previous_scene(
-                    subghz->scene_manager, SubGhzSceneStart);
-            }
+            scene_manager_stop(subghz->scene_manager);
+            view_dispatcher_stop(subghz->view_dispatcher);
             consumed = true;
             break;
         case SubGhzCustomEventViewReceiverOK:

@@ -281,7 +281,7 @@ int32_t subghz_app(void* p) {
             subghz->view_dispatcher, subghz->gui, ViewDispatcherTypeFullscreen);
         furi_string_set(subghz->file_path, SUBGHZ_APP_FOLDER);
         if(subghz_txrx_is_database_loaded(subghz->txrx)) {
-            scene_manager_next_scene(subghz->scene_manager, SubGhzSceneStart);
+            scene_manager_next_scene(subghz->scene_manager, SubGhzSceneReceiver);
         } else {
             scene_manager_set_scene_state(
                 subghz->scene_manager, SubGhzSceneShowError, SubGhzCustomEventManagerSet);
