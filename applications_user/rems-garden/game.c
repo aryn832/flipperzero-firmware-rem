@@ -1,3 +1,5 @@
+#include <dolphin/dolphin.h>
+#include <dolphin/helpers/dolphin_deed.h>
 #include "game.h"
 
 /****** Entities: Player ******/
@@ -118,6 +120,7 @@ static void target_collision(Entity* self, Entity* other, GameManager* manager, 
         // Increase score
         GameContext* game_context = game_manager_game_context_get(manager);
         game_context->score++;
+        dolphin_deed(DolphinDeedPluginStart);
 
         // Move target to new random position
         entity_pos_set(self, random_pos());
