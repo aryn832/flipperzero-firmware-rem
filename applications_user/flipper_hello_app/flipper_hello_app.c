@@ -9,11 +9,9 @@ static void hello_app_draw_callback(Canvas* canvas, void* ctx) {
     canvas_set_font(canvas, FontPrimary);
     //canvas_draw_icon(canvas, 0, 8, &I_WarningDolphin_45x42);
     canvas_set_font(canvas, FontSecondary);
-    canvas_draw_str(canvas, 51, 24, "Kill everyone,");
-    canvas_draw_str(canvas, 51, 32, "Kill Yourself,");
-    canvas_draw_str(canvas, 51, 38, "Re-entropy");
+    canvas_draw_str(canvas, 51, 38, "Enigma");
     canvas_set_font(canvas, FontSecondary);
-    canvas_draw_str(canvas, 17, 60, "github.com/aryn832");
+    canvas_draw_str(canvas, 17, 60, "https://neonpul.se");
     canvas_draw_frame(canvas, 0, 50, 128, 14);
 }
 
