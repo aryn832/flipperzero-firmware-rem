@@ -5,7 +5,7 @@ App(
     entry_point="game_app", # Do not touch this
     stack_size=4 * 1024, # Game stack, change accordingly
     fap_icon="icon.png", # Game icon
-    fap_category="Games",
+    fap_category="Aryn",
     fap_file_assets="assets", # Do not touch this and the next line, it is needed to generate sprites
     fap_extbuild=(
         ExtFile(

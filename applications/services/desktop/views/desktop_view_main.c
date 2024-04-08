@@ -83,9 +83,9 @@ bool desktop_main_input_callback(InputEvent* event, void* context) {
             } else if(event->key == InputKeyUp) {
                 main_view->callback(DesktopMainEventOpenLockMenu, main_view->context);
             } else if(event->key == InputKeyDown) {
-                main_view->callback(DesktopDummyEventOpenDown, main_view->context);
-            } else if(event->key == InputKeyLeft) {
                 main_view->callback(DesktopDummyEventOpenLeft, main_view->context);
+            } else if(event->key == InputKeyLeft) {
+                main_view->callback(DesktopDummyEventOpenDown, main_view->context);
             }
             // Right key short is handled by animation manager
         }

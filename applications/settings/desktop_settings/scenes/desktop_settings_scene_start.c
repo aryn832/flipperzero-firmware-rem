@@ -97,9 +97,9 @@ void desktop_settings_scene_start_on_enter(void* context) {
     variable_item_list_add(variable_item_list, "Favorite App - Down Long", 1, NULL, NULL);
     variable_item_list_add(variable_item_list, "Favorite App - Right Short", 1, NULL, NULL);
     variable_item_list_add(variable_item_list, "Favorite App - Up Long", 1, NULL, NULL);
-    variable_item_list_add(variable_item_list, "Broke App - Right Long", 1, NULL, NULL);
+    variable_item_list_add(variable_item_list, "Right Long", 1, NULL, NULL);
 
-    variable_item_list_add(variable_item_list, "Favorite App - Down Short", 1, NULL, NULL);
+    variable_item_list_add(variable_item_list, "Down Short", 1, NULL, NULL);
     variable_item_list_add(variable_item_list, "Dummy Mode App - Left", 1, NULL, NULL);
     variable_item_list_add(variable_item_list, "Long Ok", 1, NULL, NULL);
 
