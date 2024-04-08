@@ -21,14 +21,52 @@ static void hid_scene_start_submenu_callback(void* context, uint32_t index) {
 
 void hid_scene_start_on_enter(void* context) {
     Hid* app = context;
-
-    // We're bypassing all other submenu additions and focusing on Media
+    submenu_add_item(
+        app->submenu, "Keynote", HidSubmenuIndexKeynote, hid_scene_start_submenu_callback, app);
+    submenu_add_item(
+        app->submenu,
+        "Keynote Vertical",
+        HidSubmenuIndexKeynoteVertical,
+        hid_scene_start_submenu_callback,
+        app);
+    submenu_add_item(
+        app->submenu, "Keyboard", HidSubmenuIndexKeyboard, hid_scene_start_submenu_callback, app);
     submenu_add_item(
         app->submenu, "Media", HidSubmenuIndexMedia, hid_scene_start_submenu_callback, app);
+    submenu_add_item(
+        app->submenu, "Mouse", HidSubmenuIndexMouse, hid_scene_start_submenu_callback, app);
+#ifdef HID_TRANSPORT_BLE
+    submenu_add_item(
+        app->submenu,
+        "TikTok Controller",
+        HidSubmenuIndexTikTok,
+        hid_scene_start_submenu_callback,
+        app);
+#endif
+    submenu_add_item(
+        app->submenu,
+        "Mouse Clicker",
+        HidSubmenuIndexMouseClicker,
+        hid_scene_start_submenu_callback,
+        app);
+    submenu_add_item(
+        app->submenu,
+        "Mouse Jiggler",
+        HidSubmenuIndexMouseJiggler,
+        hid_scene_start_submenu_callback,
+        app);
+#ifdef HID_TRANSPORT_BLE
+    submenu_add_item(
+        app->submenu,
+        "Bluetooth Unpairing",
+        HidSubmenuIndexRemovePairing,
+        hid_scene_start_submenu_callback,
+        app);
+#endif
 
-    // Directly set the selected item to Media without waiting for user input
-    submenu_set_selected_item(app->submenu, HidSubmenuIndexMedia);
-    view_dispatcher_switch_to_view(app->view_dispatcher, HidViewMedia);
+    submenu_set_selected_item(
+        app->submenu, scene_manager_get_scene_state(app->scene_manager, HidSceneStart));
+    view_dispatcher_switch_to_view(app->view_dispatcher, HidViewSubmenu);
 }
 
 bool hid_scene_start_on_event(void* context, SceneManagerEvent event) {
