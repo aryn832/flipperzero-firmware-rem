@@ -159,11 +159,11 @@ int32_t dolphin_srv(void* p) {
     furi_timer_restart(dolphin->butthurt_timer, HOURS_IN_TICKS(2 * 24));
     dolphin_update_clear_limits_timer_period(dolphin);
     furi_timer_restart(dolphin->clear_limits_timer, HOURS_IN_TICKS(24));
-
     DolphinEvent event;
     while(1) {
         if(furi_message_queue_get(dolphin->event_queue, &event, HOURS_IN_TICKS(1)) ==
            FuriStatusOk) {
+            FURI_LOG_I(TAG,"DOLPHIN EVENT FAM!!");
             if(event.type == DolphinEventTypeDeed) {
                 dolphin_state_on_deed(dolphin->state, event.deed);
                 DolphinPubsubEvent event = DolphinPubsubEventUpdate;

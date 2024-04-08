@@ -51,7 +51,7 @@ static uint8_t dolphin_deed_limits[] = {
     20, // DolphinAppIr
     20, // DolphinAppIbutton
     20, // DolphinAppBadusb
-    200, // DolphinAppPlugin
+    255, // DolphinAppPlugin
 };
 
 _Static_assert(COUNT_OF(dolphin_deed_weights) == DolphinDeedMAX, "dolphin_deed_weights size error");

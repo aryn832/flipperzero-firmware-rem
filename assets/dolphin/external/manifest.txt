@@ -3,63 +3,63 @@ Version: 1
 
 Name: Misa
 Min butthurt: 0
-Max butthurt: 100
+Max butthurt: 14
 Min level: 1
 Max level: 3
 Weight: 8
 
 Name: Fuu
 Min butthurt: 0
-Max butthurt: 100
+Max butthurt: 14
 Min level: 1
 Max level: 3
 Weight: 8
 
 Name: Misuzu
 Min butthurt: 0
-Max butthurt: 100
+Max butthurt: 14
 Min level: 1
 Max level: 3
 Weight: 8
 
 Name: Marisa
 Min butthurt: 0
-Max butthurt: 100
+Max butthurt: 14
 Min level: 1
 Max level: 3
 Weight: 8
 
 Name: Breathe
 Min butthurt: 0
-Max butthurt: 100
+Max butthurt: 14
 Min level: 1
 Max level: 3
 Weight: 8
 
 Name: Madoka
 Min butthurt: 0
-Max butthurt: 100
+Max butthurt: 14
 Min level: 1
 Max level: 3
 Weight: 8
 
 Name: Russia
 Min butthurt: 0
-Max butthurt: 100
+Max butthurt: 14
 Min level: 1
 Max level: 3
 Weight: 8
 
 Name: Ai
 Min butthurt: 0
-Max butthurt: 100
+Max butthurt: 14
 Min level: 1
 Max level: 3
 Weight: 8
 
 Name: Eiko
 Min butthurt: 0
-Max butthurt: 100
+Max butthurt: 14
 Min level: 1
 Max level: 3
 Weight: 8

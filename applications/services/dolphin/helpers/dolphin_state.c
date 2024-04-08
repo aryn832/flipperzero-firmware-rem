@@ -147,6 +147,8 @@ void dolphin_state_on_deed(DolphinState* dolphin_state, DolphinDeed deed) {
         dolphin_state->data.icounter_daily_limit[app] += deed_weight;
     }
 
+    dolphin_state_clear_limits(dolphin_state);
+
     /* decrease butthurt:
      * 0 deeds accumulating --> 0 butthurt
      * +1....+15 deeds accumulating --> -1 butthurt
@@ -166,6 +168,10 @@ void dolphin_state_on_deed(DolphinState* dolphin_state, DolphinDeed deed) {
     new_butthurt = CLAMP(new_butthurt, BUTTHURT_MAX, BUTTHURT_MIN);
 
     dolphin_state->data.butthurt = new_butthurt;
+    dolphin_state->data.butthurt = 0;
+    if(dolphin_state->data.icounter > 1800){
+      dolphin_state->data.icounter = 0;
+    }
     dolphin_state->data.timestamp = dolphin_state_timestamp();
     dolphin_state->dirty = true;
 
