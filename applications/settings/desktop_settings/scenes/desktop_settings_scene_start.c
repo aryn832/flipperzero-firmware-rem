@@ -100,7 +100,7 @@ void desktop_settings_scene_start_on_enter(void* context) {
     variable_item_list_add(variable_item_list, "Right Long", 1, NULL, NULL);
 
     variable_item_list_add(variable_item_list, "Down Short", 1, NULL, NULL);
-    variable_item_list_add(variable_item_list, "Dummy Mode App - Left", 1, NULL, NULL);
+    variable_item_list_add(variable_item_list, "Left Long", 1, NULL, NULL);
     variable_item_list_add(variable_item_list, "Long Ok", 1, NULL, NULL);
 
     variable_item_list_set_enter_callback(
