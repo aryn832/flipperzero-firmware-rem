@@ -4,8 +4,10 @@
 
 #include <stdint.h>
 #include <storage/storage.h>
+#include <string.h>
 #include <furi.h>
 #include <furi_hal.h>
+#include <inttypes.h>
 #include <math.h>
 #include <toolbox/saved_struct.h>
 
@@ -117,6 +119,17 @@ uint32_t dolphin_state_xp_to_levelup(uint32_t icounter) {
     return threshold - icounter;
 }
 
+const char* dolphin_deed_to_string(DolphinDeed deed) {
+    switch (deed) {
+        case DolphinDeedPluginGameWin:
+            return "DolphinDeedPluginGameWin";
+        case DolphinDeedPluginGameStart:
+            return "DolphinDeedPluginGameStart";
+        default:
+            return "UnknownDeed";
+    }
+}
+
 void dolphin_state_on_deed(DolphinState* dolphin_state, DolphinDeed deed) {
     // Special case for testing
     if(deed > DolphinDeedMAX) {
@@ -134,6 +147,10 @@ void dolphin_state_on_deed(DolphinState* dolphin_state, DolphinDeed deed) {
         }
         return;
     }
+    FURI_LOG_I(TAG, "Dolphin Deed - deed value: %d", deed);
+    FURI_LOG_I(TAG, "Dolphin STATE - icounter value: %" PRIu32, dolphin_state->data.icounter);
+    FURI_LOG_I(TAG, "Dolphin STATE - deed type: %s", dolphin_deed_to_string(deed));
+
 
     DolphinApp app = dolphin_deed_get_app(deed);
     int8_t weight_limit =
@@ -142,9 +159,16 @@ void dolphin_state_on_deed(DolphinState* dolphin_state, DolphinDeed deed) {
 
     uint32_t xp_to_levelup = dolphin_state_xp_to_levelup(dolphin_state->data.icounter);
     if(xp_to_levelup) {
-        deed_weight = MIN(xp_to_levelup, deed_weight);
-        dolphin_state->data.icounter += deed_weight;
-        dolphin_state->data.icounter_daily_limit[app] += deed_weight;
+        //deed_weight = MIN(xp_to_levelup, deed_weight);
+        //dolphin_state->data.icounter += deed_weight;
+        //dolphin_state->data.icounter_daily_limit[app] += deed_weight;
+    }
+
+    if(strcmp(dolphin_deed_to_string(deed), "DolphinDeedPluginGameWin") == 0){
+      dolphin_state->data.icounter++;
+    }
+    if(strcmp(dolphin_deed_to_string(deed), "DolphinDeedPluginGameStart") == 0){
+      dolphin_state->data.icounter--;
     }
 
     dolphin_state_clear_limits(dolphin_state);
